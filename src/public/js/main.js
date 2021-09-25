@@ -47,7 +47,7 @@ var imgPersonaje, imgFondo;
 function cargarImagenes() {
     imgPersonaje = new Image();
     imgFondo = new Image();
-    imgMaquinaExpendedora= new Image();
+    imgMaquinaExpendedora = new Image();
     imgMesa = new Image();
     imgParlante = new Image();
     imgRotuloBebidas = new Image();
@@ -55,15 +55,15 @@ function cargarImagenes() {
     imgRotuloWifi = new Image();
     imgSilla= new Image();
 
+    imgMaquinaExpendedora.src = '/data/images/maquinaExpendedora.png';
     imgPersonaje.src = '/data/images/LainF1.png';
-    imgFondo.src = '/data//images/fondo.jpg';
-    imgMaquinaExpendedora.src = '/data//images/maquinaExpendedora.png';
-    imgMesa.src = '/data//images/mesa.png';
-    imgParlante.src = '/data//images/parlante.png';
-    imgRotuloBebidas.src = '/data//images/rotuloBebidas.png';
-    imgRotuloCyberia.src = '/data//images/rotuloCyberia.png';
-    imgRotuloWifi.src = '/data//images/rotuloWifi.png';
-    imgSilla.src = '/data//images/silla.png';
+    imgFondo.src = '/data/images/fondo.jpg';
+    imgMesa.src = '/data/images/mesa.png';
+    imgParlante.src = '/data/images/parlante.png';
+    imgRotuloBebidas.src = '/data/images/rotuloBebidas.png';
+    imgRotuloCyberia.src = '/data/images/rotuloCyberia.png';
+    imgRotuloWifi.src = '/data/images/rotuloWifi.png';
+    imgSilla.src = '/data/images/silla.png';
     
 }
 
