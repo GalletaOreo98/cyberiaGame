@@ -3,19 +3,32 @@ $(function () {
     //Obtaining DOM elements from the nickName form
     const $nickForm = $('#nickForm');
     const $nickName = $('#nickName');
+    const $nickError = $('#nickError');
     var myName;
 
     $nickForm.submit(e => {
         e.preventDefault();
-        $('#nickWrap').hide();
-        $('#contentWrap').show();
         myName = $nickName.val();
         socket.emit('new user', {nombre:myName,w:60,h:63,x:100,y:472}, data =>{
-            for (let index = 0; index < usersCliente.length; index++) {
-                if (data[index].nombre === usersCliente[index].nombre) {
-                    usersCliente[index] = data[index];
-                }
-            } 
+            let existe = typeof data;
+            if (existe=='boolean') {
+                console.log('ese nomre es repetido');
+                $nickError.html(`
+                    <div class="alert alert-danger">
+                        Ese usuario ya existe
+                    </div>`
+                );
+            }else{
+                $('#nickWrap').hide();
+                $('#contentWrap').show();
+                for (let index = 0; index < usersCliente.length; index++) {
+                    if (data[index].nombre === usersCliente[index].nombre) {
+                        usersCliente[index] = data[index];
+                    }
+                } 
+            }
+
+
         });
     });
 
@@ -54,6 +67,7 @@ function cargarImagenes() {
     imgRotuloCyberia = new Image();
     imgRotuloWifi = new Image();
     imgSilla= new Image();
+    imgCalabaza= new Image();
 
     imgMaquinaExpendedora.src = '/data/images/maquinaExpendedora.png';
     imgPersonaje.src = '/data/images/LainF1.png';
@@ -64,6 +78,7 @@ function cargarImagenes() {
     imgRotuloCyberia.src = '/data/images/rotuloCyberia.png';
     imgRotuloWifi.src = '/data/images/rotuloWifi.png';
     imgSilla.src = '/data/images/silla.png';
+    imgCalabaza.src = '/data/images/calabaza.png'
     
 }
 
@@ -94,12 +109,14 @@ function dibujarFondo() {
 
 function dibujarObjetos() {
     ctx.drawImage(imgMaquinaExpendedora, 0, 0, 117, 120, 600, 414, 117, 120);
+    ctx.drawImage(imgCalabaza, 0, 0, 40, 34, 10, 534-78, 40, 34);
     ctx.drawImage(imgMesa, 0, 0, 89, 45, 5, 534-45, 89, 45);
     ctx.drawImage(imgParlante, 0, 0, 109, 40, 200, 534-45, 109, 45);
     ctx.drawImage(imgRotuloBebidas, 0, 0, 79, 58, 666, 310, 79, 58);
     ctx.drawImage(imgRotuloCyberia, 0, 0, 295, 131, 110, 50, 295, 131);
     ctx.drawImage(imgRotuloWifi, 0, 0, 27, 35, 50, 380, 27, 35);
-    ctx.drawImage(imgSilla, 0, 0, 38, 37, 65, 534-38, 38, 37);
+    ctx.drawImage(imgSilla, 0, 0, 38, 37, 105, 534-38, 38, 37);
+    
 }
 
 //Principal bucle

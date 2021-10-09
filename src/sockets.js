@@ -5,12 +5,23 @@ module.exports = function(io){
     io.on('connection', socket =>{
 
         socket.on('new user', (data, cb) =>{
-            users.push(data);
-            cb(users);
+            let existe=false;  
             for (let index = 0; index < users.length; index++) {
-                console.log(users[index].nombre);
+                if(users[index].nombre === data.nombre){
+                    existe=true;
+                };
             }
-            
+            if(existe){
+                console.log('Este usuario ya existe'+ typeof existe);
+                cb(existe);
+            }else{
+                socket.nickName=data.nombre;
+                users.push(data);
+                cb(users);
+                for (let index = 0; index < users.length; index++) {
+                    console.log(users[index].nombre);
+                }
+            }
         });
 
         socket.on('movimiento', data => {
@@ -21,6 +32,17 @@ module.exports = function(io){
                 }
             }
             io.sockets.emit('update', users);
+        });
+
+        socket.on('disconnect', data => {
+            if(!socket.nickName) return;
+            for (let index = 0; index < users.length; index++) {
+                if(users[index].nombre === socket.nickName){
+                    users.splice(index, 1);
+                };
+            }
+            io.sockets.emit('update', users);
+            console.log('an user disconnected');
         });
     });  
 }
