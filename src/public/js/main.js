@@ -9,7 +9,7 @@ $(function () {
     $nickForm.submit(e => {
         e.preventDefault();
         myName = $nickName.val();
-        socket.emit('new user', {nombre:myName,w:60,h:63,x:100,y:472}, data =>{
+        socket.emit('new user', {nombre:myName,w:60,h:63,x:100,y:472,estado:'NORMAL',animacionTime:0}, data =>{
             let existe = typeof data;
             if (existe=='boolean') {
                 console.log('ese nomre es repetido');
@@ -33,11 +33,25 @@ $(function () {
     });
 
     document.addEventListener('keydown', function(evento){
-        if(evento.keyCode == 32){
-            socket.emit('movimiento', myName);
-            console.log('Te has movido');
+        let accionData;
+        switch (evento.keyCode) {
+            case 68:
+                accionData = 'MOV_DERECHA'
+                socket.emit('movimiento', {nombre:myName,accion:accionData});
+                break;
+            case 65:
+                accionData = 'MOV_IZQUIERDA'
+                socket.emit('movimiento', {nombre:myName,accion:accionData});
+            default:
+                break;
         }
 
+    });
+
+    document.addEventListener('keyup', function(evento){
+        let accionData;
+        accionData = 'STOP'
+        socket.emit('movimiento', {nombre:myName,accion:accionData});
     });
 
     socket.on('update', data => {
@@ -55,10 +69,12 @@ var w=800;
 var h=600;
 var canvas;
 var ctx;
-var imgPersonaje, imgFondo;
 
 function cargarImagenes() {
-    imgPersonaje = new Image();
+    imgPersonajeRF1 = new Image();
+    imgPersonajeRF2 = new Image();
+    imgPersonajeIF1 = new Image();
+    imgPersonajeIF2 = new Image();
     imgFondo = new Image();
     imgMaquinaExpendedora = new Image();
     imgMesa = new Image();
@@ -70,7 +86,10 @@ function cargarImagenes() {
     imgCalabaza= new Image();
 
     imgMaquinaExpendedora.src = '/data/images/maquinaExpendedora.png';
-    imgPersonaje.src = '/data/images/LainF1.png';
+    imgPersonajeRF1.src = '/data/images/LainDerechaF1.png';
+    imgPersonajeRF2.src = '/data/images/LainDerechaF2.png';
+    imgPersonajeIF1.src = '/data/images/LainIzquierdaF1.png';
+    imgPersonajeIF2.src = '/data/images/LainIzquierdaF2.png';
     imgFondo.src = '/data/images/fondo.jpg';
     imgMesa.src = '/data/images/mesa.png';
     imgParlante.src = '/data/images/parlante.png';
@@ -94,7 +113,22 @@ function borrarCanvas() {
 
 function dibujarPersonajes() {
     for (let index = 0; index < usersCliente.length; index++) {
-        ctx.drawImage(imgPersonaje, 0 , 0, usersCliente[index].w, usersCliente[index].h, usersCliente[index].x, usersCliente[index].y, usersCliente[index].w, usersCliente[index].h);
+        switch (usersCliente[index].estado) {
+            case 'NORMAL':
+                ctx.drawImage(imgPersonajeRF1, 0 , 0, usersCliente[index].w, usersCliente[index].h, usersCliente[index].x, usersCliente[index].y, usersCliente[index].w, usersCliente[index].h);
+                break;
+            case 'MOV_DERECHA':
+                ctx.drawImage(imgPersonajeRF2, 0 , 0, usersCliente[index].w, usersCliente[index].h, usersCliente[index].x, usersCliente[index].y, usersCliente[index].w, usersCliente[index].h);
+                break;
+            case 'NORMAL2':
+                ctx.drawImage(imgPersonajeIF1, 0 , 0, usersCliente[index].w, usersCliente[index].h, usersCliente[index].x, usersCliente[index].y, usersCliente[index].w, usersCliente[index].h);
+                break;
+            case 'MOV_IZQUIERDA':
+                ctx.drawImage(imgPersonajeIF2, 0 , 0, usersCliente[index].w, usersCliente[index].h, usersCliente[index].x, usersCliente[index].y, usersCliente[index].w, usersCliente[index].h);
+                break;
+            default:
+                break;
+        }
         ctx.fillStyle="white"; //color de relleno
         ctx.font="bold 15px arial"; //estilo de texto
         ctx.fillText(usersCliente[index].nombre, usersCliente[index].x, usersCliente[index].y-5);
