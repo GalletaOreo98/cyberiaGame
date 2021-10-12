@@ -22,15 +22,11 @@ module.exports = function(io){
                 };
             }
             if(existe){
-                console.log('Este usuario ya existe'+ typeof existe);
                 cb(existe);
             }else{
                 socket.nickName=data.nombre;
                 users.push(data);
                 cb(users);
-                for (let index = 0; index < users.length; index++) {
-                    console.log(users[index].nombre);
-                }
             }
         });
 
@@ -49,7 +45,6 @@ module.exports = function(io){
                                 users[index].estado = 'NORMAL';
                                 users[index].animacionTime=-2;
                             }
-                            console.log('se movio el pana ' + data.nombre + ' Accion Tipo: ' + data.accion);
                         }
                     }
                     break;
@@ -66,7 +61,6 @@ module.exports = function(io){
                                 users[index].estado = 'NORMAL2';
                                 users[index].animacionTime=-2;
                             }
-                            console.log('se movio el pana ' + data.nombre + ' Accion Tipo: ' + data.accion);
                         }
                     }
                     break;
@@ -84,7 +78,6 @@ module.exports = function(io){
                                     break;
                             }
                             users[index].animacionTime=0;
-                            console.log('se paró el pana ' + data.nombre + ' Accion Tipo: ' + data.accion);
                         }
                     }
                     break;
@@ -102,7 +95,6 @@ module.exports = function(io){
                 };
             }
             io.sockets.emit('update', users);
-            console.log('an user disconnected');
         });
     });  
 }

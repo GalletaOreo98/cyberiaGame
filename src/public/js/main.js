@@ -12,7 +12,6 @@ $(function () {
         socket.emit('new user', {nombre:myName,w:60,h:63,x:100,y:472,estado:'NORMAL',animacionTime:0}, data =>{
             let existe = typeof data;
             if (existe=='boolean') {
-                console.log('ese nomre es repetido');
                 $nickError.html(`
                     <div class="alert alert-danger">
                         Ese usuario ya existe
@@ -56,9 +55,6 @@ $(function () {
 
     socket.on('update', data => {
         usersCliente = data.slice();
-        for (let index = 0; index < usersCliente.length; index++) {
-             console.log(usersCliente[index]);
-        } 
     });
 
 });
