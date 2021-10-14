@@ -36,11 +36,11 @@ $(function () {
         let accionData;
         switch (evento.keyCode) {
             case 68:
-                accionData = 'MOV_DERECHA'
+                accionData = 'MOV_DERECHA';
                 socket.emit('movimiento', {nombre:myName,accion:accionData});
                 break;
             case 65:
-                accionData = 'MOV_IZQUIERDA'
+                accionData = 'MOV_IZQUIERDA';
                 socket.emit('movimiento', {nombre:myName,accion:accionData});
             default:
                 break;
@@ -50,12 +50,20 @@ $(function () {
 
     document.addEventListener('keyup', function(evento){
         let accionData;
-        accionData = 'STOP'
+        accionData = 'STOP';
         socket.emit('movimiento', {nombre:myName,accion:accionData});
     });
 
     socket.on('update', data => {
         usersCliente = data.slice();
+    });
+
+    document.getElementById("myBtnI").addEventListener("click", function() {
+        socket.emit('movimiento', {nombre:myName,accion:'MOV_IZQUIERDA'});
+      });
+
+    document.getElementById("myBtnR").addEventListener("click", function() {
+        socket.emit('movimiento', {nombre:myName,accion:'MOV_DERECHA'});
     });
 
 });
