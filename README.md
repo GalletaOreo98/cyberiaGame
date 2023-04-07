@@ -1,2 +1,4 @@
 # Cyberia game  
-A simple sockets based multiplayer videogame
+A simple sockets based multiplayer videogame  
+  
+![](/info/cyberia_screenshot.png)
