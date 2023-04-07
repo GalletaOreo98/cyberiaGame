@@ -58,13 +58,13 @@ $(function () {
         usersCliente = data.slice();
     });
 
-    document.getElementById("myBtnI").addEventListener("click", function() {
+    /* document.getElementById("myBtnI").addEventListener("click", function() {
         socket.emit('movimiento', {nombre:myName,accion:'MOV_IZQUIERDA'});
       });
 
     document.getElementById("myBtnR").addEventListener("click", function() {
         socket.emit('movimiento', {nombre:myName,accion:'MOV_DERECHA'});
-    });
+    }); */
 
 });
 
